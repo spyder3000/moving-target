@@ -1,0 +1,148 @@
+<!--Visual Studio has built-in support for handlebars;  .hbs is handlebar file (basically an html file w/ some additional features
+        that allows for dynamic content) -->
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Moving Target</title>
+        <!---link rel="icon" href="/img/weather.png"--->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/css/styles.css">  
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script> 
+	    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+ 
+    </head>
+    <body>
+        <div id="results_page" class="content container main-content88">
+            <!-- {{>header}} -->    <!-- > is needed to include a partial --> 
+            <h1 class="web_title"><b>Moving Target Game</b><br><br></h1>
+            <div id="imgwin" class="hideme imgwin"><img class="finishimg" src="img/emoji-sunglasses.png" alt="Emoji" width="250" height="300"></div>
+            <div id="imglose" class="hideme imglose"><img class="finishimg" src="img/emoji-angry2.png" alt="Emoji" width="250" height="300"></div>
+
+            <span id="hidetitle"><input type="hidden" name="hidetitle" value="page2"></span>
+
+            <section class="intro_hdr row" id="summary_section">	
+                <div class="intro_hdr col-md-4 col-sm-12 ml-4">Summary of Guesses </div>
+                <div class="diff_level col-md-7 col-sm-12">[ Level {{currGame.difficultyLevel}} -- 
+                    target moves every {{currGame.minFreq}} to {{currGame.maxFreq}} turns ]</div>	
+                <table class="results col-md-11">
+                    <tr>
+                        <th class="col1 col-md-1 offset-md-1">Turn #</th>
+                        <th class="col2 col-md-1">Guess</th>
+                        <th class="col3 col-md-1">Target #</th>
+                        <th class="col4 col-md-2">Result</th>
+                        <th class="col5th col-md-2">Movement</th>
+                        {{#if currGame.hotColdCheat }}
+                            <th class="col6 col-md-2">
+                                Hot/Cold
+                            </th>	
+                        {{/if }}
+                    </tr>
+                    
+                {{#if currGame.gameArray}}
+                {{#each currGame.gameArray}}
+                    <tr>
+                        <td class="col1">{{turnNumber}}</td>
+                        <td class="col2">{{guessValue}}</td>
+                        <td class="col3">
+                            {{#if ../currGame.finished}} 
+                                {{targetValue}}
+                            {{/if}}
+                        </td>
+                        <td class="col4 {{resultClass}}">
+                            {{result}}
+                        </td>
+                        <td class="col5">{{moveInfo}}</td>		
+                        
+                        <td class="col6 {{#if showHotCold}} {{hotColdClass}} {{/if}} ">
+                            {{#if showHotCold}}
+                                {{hotColdLvl}}
+                            {{/if}}
+                        </td>	                       
+                        		
+                    </tr>
+                {{/each}}
+                {{/if}}			
+                </table>
+
+            {{#if currGame.finished}}
+            {{else}}
+                
+                <form class="col-md-12" action="./guess" enctype="application/json" method="post">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div id="data1" class="ml-2" class88="col-md-11">
+                            <label><b>Turn {{currGame.turnNumber}}</b> -- Enter guess:</label>
+                            <input type="text" id="userGuess" name="userGuess"
+                                value=""/>
+                            <span class="limit">value must be between {{currGame.firstNumber}} and {{currGame.totNumbers}}</span> <br />
+                        </div>
+
+                        <div id="buttons" class="ml-5 mt-2">
+                            <label>&nbsp; </label>
+                            <input type="submit" name="action" id="guess" value="Process Guess"/><br />
+                            {{#if currGame.error}}
+                                <div class="error_msg">Invalid value entered.  Try again.</div>
+                            {{/if}}
+                        </div>	
+                    </div>
+                    <div class="col-md-5 mt-3">
+                        <div><span class="tot_mines_text"><b>Total Mines:</b> </span> <span class="tot_mines_num">{{currGame.totMines}}</span></div>
+                        <div><span class="removed_text"><b>Removed Numbers</b> (cannot be selected): </span></div>
+                        <div class="ml-4">{{#if currGame.removeInd}}
+                            <span class="removed_nums">{{currGame.removedNumsText}}</span> {{/if}}
+                        </div> 
+                    </div>
+                </div>		
+                </form>	
+	
+
+             {{/if}}			
+            </section>
+
+            <section id="banner_text" class="col-md-10 offset-md-1 mt-3">
+                <span class="hideme endgame_ind">
+                    {{#if currGame.success}}success{{/if}}
+                    {{#if currGame.failure}}failure{{/if}}
+                </span>
+
+                {{#if currGame.success}}
+                    <h1 class="banner1"> Congratulations! &nbsp Target Found!!!</h1><br>
+                {{/if}}	
+                {{#if currGame.failure}} 
+                    {{#unless currGame.explode}}
+                        <h1 class="banner2"> Loss! &nbsp &nbsp Maximum Turns Reached</h1><br>
+                    {{/unless}}	
+                {{/if}}
+
+                {{#if currGame.failure}}
+                    {{#if currGame.explode}} 
+                        <h1 class="banner2"> Loss! &nbsp &nbsp Minefield Hit</h1><br>
+                    {{/if}}
+                {{/if}}			
+            </section>
+
+            <section id="mine_list" class="col-md-10 offset-md-1">
+                {{#if currGame.mine}}
+                    {{#if currGame.finished}}
+                        <h2><b>Mine numbers:  </b></h2><p>
+                        {{#if currGame.minesArray}}
+                        {{#each currGame.minesArray}}
+                            {{this}} &nbsp  
+                        {{/each}}
+                        {{/if}}	
+                    {{/if}}	
+                {{/if}}		
+                </p><br>
+            </section>
+            <p id="homelink"><a href="./">New Game</a>
+            </p><br><br><br>	
+
+        </div>
+       
+        <!-- {{>footer}}  -->
+        <script src="/js/app.js"></script>  <!--- moved to end so that this doesn't run until all our elements are available -->
+    </body>
+</html> 

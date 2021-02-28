@@ -1,0 +1,184 @@
+<!--Visual Studio has built-in support for handlebars;  .hbs is handlebar file (basically an html file w/ some additional features
+        that allows for dynamic content) -->
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Moving Target</title>
+        <!---link rel="icon" href="/img/weather.png"--->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/css/styles.css">  
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script> 
+	    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div id="content_page" class="content container main-content88">
+            <!-- {{>header}} -->    <!-- > is needed to include a partial --> 
+            <h1 class="web_title"><b>Moving Target Game</b><br></h1>
+            <span id="hidetitle"><input type="hidden" name="hidetitle" value="page1"></span>
+
+            <section id="top_rules" class="col-md-8 offset-md-1 col-sm-12">
+                <h2>Game Rules:</h2>
+                <p>A number from 1 to 1000 will be randomly selected and the user will take
+                    turns guessing what that number is.  If the number is incorrect, the 
+                    program will return a value of too high or too low.  </p>
+                <p>Depending on the challenge level, the target number will move after a 
+                    certain number of guesses.  The program will give the amount the number has 
+                    moved by, but will not give the direction.  </p>
+                <p>The game ends after the user selects the correct number or after 40 
+                    incorrect guesses have been made.</p>
+                
+            </section>
+
+            <section id="bottom_level">
+                <form action="./begin" method="post">
+                    <div id="bottom_left" class="col-md-5 col-sm-11">
+                        <h2>Select Challenge </h2>
+                        <div class="ckbox col-md-12">
+                            <div class="select_challenge_div">
+                                <select id="challenge" class="select_challenge" name="challengeCheatNum">
+                                    <option value="1">Beginner</option>
+                                    <option value="2" selected>Easy 1</option>
+                                    <option value="3">Easy 2</option>
+                                    <option value="4">Medium 1</option>
+                                    <option value="5">Medium 2</option>
+                                    <option value="6">Difficult 1</option>
+                                    <option value="7">Difficult 2</option>
+                                    <option value="8">Difficult 3</option>
+                                    <option value="9">Super Difficult 1</option>
+                                    <option value="10">Super Difficult 2</option>
+                                    <option value="0">Custom</option>
+                                </select>
+                                <span class="cktext"> - Choose a specific Challenge level OR choose custom to set the parameters yourself</span>
+                            </div> 
+                            <div class="challenge_text_desc">lorem ipsum</div>
+                        </div><br>
+
+                        <span class="custom">
+                        <h2>Select Difficulty Level</h2>
+                        <div class="diff_radios">
+                            <label for="level1"><input type="radio" name="diffLevel" value="01" checked="checked" id="level1"> 
+                                <span class="lvlnum">Level 1</span> -- Target moves every 3 to 10 turns</label><br>
+                            <label for="level2"><input type="radio" name="diffLevel" value="02" id="level2"> 
+                                <span class="lvlnum">Level 2 </span> -- Target moves every 2 to 7 turns</label><br>
+                            <label for="level3"><input type="radio" name="diffLevel" value="03"	id="level3"> 
+                                <span class="lvlnum">Level 3 </span> -- Target moves every 2 to 5 turns</label><br>
+                            <label for="level4"><input type="radio" name="diffLevel" value="04"	id="level4"> 
+                                <span class="lvlnum">Level 4 </span> -- Target moves every 1 to 4 turns</label><br>
+                            <label for="level5"><input type="radio" name="diffLevel" value="05" id="level5"> 
+                                <span class="lvlnum">Level 5 </span> -- Target moves every 1 to 3 turns</label><br>
+                            <label for="level6"><input type="radio" name="diffLevel" value="06" id="level6"> 
+                                <span class="lvlnum">Level 6 </span> -- Target moves every 1 to 2 turns</label><br>
+                            <label for="level7"><input type="radio" name="diffLevel" value="07" id="level7"> 
+                                <span class="lvlnum">Level 7 </span> -- Target moves every turn</label><br>		
+                        </div></span>
+                    </div> 	
+
+                    <span class="custom">
+                    <div id="bottom_right" class="col-md-6 col-sm-11">
+                        
+                        <div class="other_checks col-md-12">
+                            <h2>Other Options</h2>
+                            <!--- NOTE:  <br> needed with div.ckbox margin-bottom = -0.5rem to fix formatting issue;  checkboxes
+                                        are not aligning correctly;  fix this via bootstrap --->
+                            <div class="ckbox col-md-12">
+                                <input type="checkbox" name="hotColdCheat" checked>
+                                <span class="cktext"> <b>Hot/Cold indicator column</b>
+                                - Red (hot) & Blue (cold) indicate closeness of guess</span><br>
+                            </div><br>
+                            
+                            <!---div class="hideme"><label><input type="checkbox" name="minefieldCheat"> <b>Minefield option</b>
+                                - Choosing any of 30 random numbers will result in an immediate loss</label><br></div--->
+                            <div class="ckbox col-md-12">
+                                <div class="bullet">*</div> 
+                                <div class="select_cheat_div">
+                                    <select id="mineNum" class="select_cheats" name="minefieldCheatNum">
+                                        <option value="0">0 Mines</option>
+                                        <option value="30" selected>30 Mines</option>
+                                        <option value="60">60 Mines</option>
+                                        <option value="90">90 Mines</option>
+                                        <option value="120">120 Mines</option>
+                                        <option value="150">150 Mines</option>
+                                    </select>
+                                    <span class="cktext"> - Choosing a number that matches a mine will result in an immediate loss</span>
+                                </div> 
+                            </div>
+                            <br>
+                        </div>
+
+                        <div class="added_chaos col-md-12">
+                            <h2 class="col-md-12">More Chaos</h2>
+                            <div class="ckbox col-md-12">
+                                <input type="checkbox" name="addMinesCheat">
+                                <div class="cktext"> <b>Added Mines</b>
+                                    - Adds additional mines after every 3 turns</div> 
+                            </div><br>
+
+                            <div class="ckbox col-md-12">
+                                <input type="checkbox" name="hotColdOutageCheat">
+                                <div class="cktext"> <b>Hot/Cold Outage</b>
+                                    - Occasionally Hot/Cold Indicator will show no result</div> 
+                            </div><br>
+
+                            <div class="ckbox col-md-12">
+                                <input type="checkbox" name="complexMovesCheat"> 
+                                <div class="cktext"> <b>Complex Moves</b>
+                                - Multiple Moves or Optional Moves</div>
+                            </div><br>
+         
+                            <div class="ckbox col-md-12">
+                                <div class="bullet">*</div> 
+                                <div class="select_cheat_div">
+                                    <select id="stopDupsMod" name="stopDupsModCheat">
+                                        <option value="0">No Restrictions</option>
+                                        <option value="1">Remove Guesses from Grid</option>
+                                        <option value="5">Remove Guesses/Block of 5 Numbers</option>
+                                        <option value="10">Remove Guesses/Block of 10 Numbers</option>
+                                    </select> 
+                                    <span class="cktext"> - Removes Guessed Numbers from the Grid OR block of 5 numbers </span>
+                                </div>
+                            </div><br>
+
+                            <div class="ckbox col-md-12">
+                                <div class="bullet">*</div> 
+                                <div class="select_cheat_div">
+                                    <select id="sizeMod" name="sizePuzzleModCheat">
+                                        <option value="0">No Change</option>
+                                        <option value="100">Add 100 numbers</option>
+                                        <option value="-50">Remove 50 numbers</option>
+                                    </select> 
+                                    <span class="cktext"> - Shrink or expand board (from 1000 values) every 4 moves </span>
+                                </div>
+                            </div><br>
+                            
+                            <div class="ckbox col-md-12">
+                                <div class="bullet">*</div>
+                                <div class="select_cheat_div">
+                                    <select id="delayNum" name="delayHotColdCheatNum">
+                                        <option value="0">No Delay</option>
+                                        <option value="1">1 Turn Delay</option>
+                                        <option value="2">2 Turns Delay</option>
+                                        <option value="3">3 Turns Delay</option>
+                                    </select>
+                                    <span class="cktext">- Hot/Cold Indicator text delayed until 1-3 turns later</span>  
+                                </div>
+                            </div><br>
+                        </div>
+                    </div>	
+                    </span>
+
+                    <div id="buttons" class="col-md-5 offset-md-2 col-sm-11">
+                        <label>&nbsp;</label>
+                        <input id="start" type="submit" name="action" value="Start"/><br />
+                    </div>
+                                
+                </form>
+            </section>	
+        </div>
+       
+        <!-- {{>footer}}  -->
+        <script src="/js/index.js"></script>  <!--- moved to end so that this doesn't run until all our elements are available -->
+    </body>
+</html> 

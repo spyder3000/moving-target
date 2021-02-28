@@ -1,0 +1,516 @@
+
+/* site.css */
+/* So the HTML5 structural tags work in older browsers */
+article, aside, figure, footer, header, nav, section {
+    display: block;
+}
+
+/***************************************************************************************
+**   Full webpage formatting section  
+***************************************************************************************/
+
+/* the styles for the elements */
+* {
+	margin: 0;                    /* default margin for web page   */
+	padding: 0;                   /* default padding for web page  */
+}
+
+html {
+	background-color: #222;                   /* dark gray */
+}
+
+.hideme {display: none; }
+
+#content {                        /* id = "content" is for the body of the web page */
+	font-family: Helvetica, Arial, sans-serif;   /* fonts for body of web page */
+    font-size: 87.5%;
+    width: 900px;                                /* specifies width of web page body */
+    margin: 0 auto;
+	border: 2px solid black; 					/* border for web page body */
+	background-color: #fcfcfc;                   /* light gray */
+}
+
+/***************************************************************************************
+**   Header formatting section  
+***************************************************************************************/
+
+header {                               /* the styles for the header */	
+}
+
+header h1 {
+	color: #191970;           /* purple text aligned in center */
+	text-align: center; 
+	font-size: 150%; 
+	padding-bottom: .2em; 
+}
+
+header h2 {
+	font-style: italic;       /* default color text (black) in italics aligned in center */
+	text-align: center;
+}
+
+.web_title {
+	color: #191970;
+	font-size: 120%;
+	padding: 1.5em 0 .25em; 
+	text-align: center; 
+}
+
+/***************************************************************************************
+**   Dropdown menu formatting section  
+***************************************************************************************/
+
+/* 	LEVEL ONE  */
+ul.dropdown {                             /* styles for the unordered bullet list */
+	list-style: none;                    /* specifies no bullets for list */
+	background-color: #30307E;           /* background color of purple */
+	background-color: #232328;           /* background color of dark grey */
+	position: relative;  
+	border-bottom: 0px solid #191970;    /* sets purple border to bottom of navigation bar */
+	border-top: 1px solid #232328;       /* sets dk grey border to top of navigation bar */
+	height: 30px; 
+}
+
+ul.dropdown li {
+/*	display: inline;  }   */             /* specifies a horizontal navigation bar */ 
+	float: left;   
+	zoom: 1;  
+	background: #30307E; 
+	background: #232328; }
+
+ul.dropdown li a {                           /* style for links in the navigation bar */
+	padding: 0.5em 1.5em;                /* padding for text of links (e.g. "Home") */
+	text-decoration: none;
+	color: #fcfcfc;                      /* color for text of links (lt gray)  */
+	font-weight: bold;                   /* sets text of links to bold  */ 
+	border-right: 2px solid #fcfcfc;     /* vertical line on nav bar set to lt gray */
+	display: block;  }
+
+ul.dropdown li a:hover {
+	font-style: italic;              /* italics for text in nav bar with focus */
+	color: #cc6699; }                /* crimson color for text in nav bar with focus */
+
+ul.dropdown li a.current { color: yellow; }    /* sets text of current nav bar link to yellow */
+
+ul.dropdown li:hover       { position: relative; }   /* positions dropdown below nav bar column */
+
+/*	LEVEL TWO  */
+ul.dropdown ul 		{ width: 190px; visibility: hidden; position: absolute; 		/* specifies no bullets for list, dropdown menu begins as hidden */
+						top: 100%; left: 0; z-index: 1; list-style: none;   }  	  
+						
+ul.dropdown ul li 		{ font-weight: normal; background: #e6e6fa; color: black;   /* background & text color for dropdown menus */
+						border-bottom: 1px solid black; border-left: 1px solid black;  
+						border-right: 1px solid black; float: none; }
+						
+ul.dropdown ul li.hover,
+ul.dropdown ul li:hover        	{ background-color: #cc6699; position: relative; }
+
+ul.dropdown ul li.hover a    	{ color: black; }
+ul.dropdown ul li a    		{color: black; font-weight: normal; 
+								padding: 0.5em 0.5em;
+								border-right: 0px solid black;}
+
+/***************************************************************************************
+**   Footer formatting section  
+***************************************************************************************/
+
+footer {                                  /* sets the styles for the footer */
+	border-top: 2px solid #191970;      /* color = purple */
+	border-top: 2px solid black; 
+	clear: both; }
+
+footer p {
+	padding: 1em 0;                  /* specifies top & bottom padding for footer lines */
+	text-align: center;  }           /* aligns text in the center */
+
+	
+/***************************************************************************************
+**   Generic formatting section  
+***************************************************************************************/
+
+.right {                                 /* for class = "right" to set alignment */
+	text-align: right;  }
+
+.left {                                 /* for class = "left" to set alignment */
+	text-align: left;  }
+
+.center {                               /* for class = "center" to set alignment */
+	text-align: center; }               
+
+
+
+
+/* style2020.css */
+html, body {
+    width: 100%; 
+    font-family: 'Poppins', sans-serif;
+    color: #222; 
+  }
+  
+  body {
+      background-color: #222;
+      height: 1200px;  
+  }
+  
+
+  @media (min-width: 768px) 
+      { .navbar-nav>li>a {
+          padding-top: 5px;
+          padding-bottom: 5px;
+      }
+  }
+
+/*  target7.css - provides the styling specific to the Lottery Simulator web pages;   */
+
+body.body { height: 1200px; background-color: #222;} 
+
+#content_page, #results_page {                 /* id = "content_page" is for the body of the web page */
+	font-family: Helvetica, Arial, sans-serif;   /* fonts for body of web page */
+    font-size: 87.5%;
+    margin: 0 auto;
+    border: 2px solid black;                /* border for web page body */
+    margin-top: 3rem; 
+	background-color: #f6f6f6;                   /* light gray */
+	padding-bottom: 2em; 
+	border-radius: 8px; 
+}
+
+/***************************************************************************************
+**   Full webpage formatting section  
+***************************************************************************************/
+section ul, aside ul {                        /* style for unordered list */
+	padding: 0 0 1em 1.25em;
+	list-style-type: disc;  }           /* specifies solid circle as bullet */
+
+section ol, aside ol {                        /* style for ordered list */
+	padding: 0 0 1em 1.25em; }
+
+section li, aside li {                         /* style for item in list */
+	padding-bottom: .35em; }	
+
+/***************************************************************************************
+**   Page 1 -- upper portion (Moving Target Rules)  
+***************************************************************************************/	
+#top_rules h2, #bottom_level h2 {
+	color: #800000; 
+	font-size: 100%; 
+	font-weight: bold; 
+	padding: 0.2em 0em 0.7em; }
+
+#top_rules {                  /* style for upper part of web page - Moving Target rules */
+/*     margin: 5px 5px 20px 35px; 
+     width: 600px; 
+	 padding: 0px 10px 10px;                
+     border: 0px solid black; 
+	 clear: none; */
+}
+
+#top_rules p  {
+	padding-left: 0.5em; 
+	padding-bottom: 0.5em; }
+	 
+/***************************************************************************************
+**   Page 1 -- lower portion (contains all user data submitted on the form)  
+***************************************************************************************/
+#bottom_level {
+	border-top: 3px solid black; 
+	padding: 1em 2em; 
+	margin: 0em 2em; 
+	clear: both; }
+	
+#bottom_level2 label {
+	padding-left: 0em; 
+	margin-left: 0.5em; }	
+
+#bottom_level2 label   {                     /* the label for each input item on form */
+    float: left;                      /* to the left of input fields */
+    width: 20em;                      /* establishes consistent width */
+    text-align: right;                /* to ensure all labels are aligned as right-justified */
+	font-weight: bold;   }
+
+#bottom_level2 input  {                        /* text boxes */
+    margin-left: 1em;
+    margin-bottom: 0.5em;
+	border: 1px solid #000000;
+	width: 4em;  }
+	
+#bottom_level .error {                      /* page 1 error message */
+	color: red; 
+	padding-left: 1em; }
+	
+#bottom_left {
+	display: inline-block;
+}
+
+#bottom_right {
+	display: inline-block; 
+	vertical-align: top; 	
+}
+
+#bottom_left .lvlnum {
+	font-weight: bold;  }
+	
+#bottom_left input {
+	margin-left: 2em; 
+	margin-right: 1em; 
+	margin-top: 0.5em;  
+}	
+
+#bottom_right  input  {    					   /* checkboxes for Other Options */
+    margin-left88: 2em;
+    margin-bottom: 1.0em;
+	border: 1px solid #000000;  
+}	
+
+div.diff_radios {
+	margin-left: 1rem; 
+}
+div.ckbox {
+    margin-left: 1rem;
+    width: 100%; 
+    margin-bottom: -0.5rem;
+}
+div.bullet {
+    margin-left: -0.8rem; 
+    font-size: 1.3em; 
+    vertical-align: top; 
+    font-weight: bold;  
+    float: left;
+}
+
+div.other_checks, div.added_chaos {
+	margin-left: 1rem; 
+}
+
+#buttons input {                          /* Calculate button */
+/*    margin-left: 20em;
+    margin-bottom: 1.0em;
+	margin-top: 1.5em; */
+	border: 3px solid #000000;
+	width: 9em; 
+	background-color: limegreen; 
+	border-radius: 5px; 
+	padding: 0.3rem;
+}
+
+#bottom_left label {
+  display: block;
+  float: left;
+  margin-left: 18px;
+}
+
+#bottom_left input[type='radio'] {
+  margin-left: -18px;
+}
+
+#bottom_right label {
+  display: block;
+  margin-bottom88: 5px;
+  font-size88: 16px;
+  float: left;
+  margin-left: 18px;
+}
+
+div.select_cheat_div {
+    margin-left: 0.5em; 
+}
+
+select.select_cheats {
+    height: 1.5rem; 
+}
+
+#bottom_right input[type='checkbox'] {
+  margin-left: -1rem;
+  margin-right: 0.8rem;
+  float: left;
+  margin-top: 0.2rem;
+}
+
+/***************************************************************************************
+**   Page 2 -- top portion - Summary Section
+***************************************************************************************/
+	 
+#summary_section88 {
+	 margin: 5px 5px 20px 55px; 
+	 padding: 0px 10px 0px 30px; 
+	 clear: both;  }
+
+#summary_section div.intro_hdr {
+	color: #800000;    
+	font-size: 100%; 
+	font-weight: bold; 
+	padding: 0.2rem; 
+	padding-bottom: 0.5rem;
+	display: inline-block; 
+}
+
+#summary_section .diff_level {
+	color: blue; 
+	font-size: 90%; 
+	padding: 0.2rem; 
+	padding-bottom: .5rem; 
+	display: inline-block; 
+}
+	
+
+#summary_section table {   
+	 border: 1px solid black;             
+     border-collapse88: collapse; 
+	 padding88: 2em 0em; 
+     margin-left: 2rem;
+     padding: 0em; 
+     border-collapse: separate; 
+     border-radius: 6px; 
+     border-spacing: 0px; 
+     filter: brightness(100%); 
+/*	 width: 700px; 
+	 margin: 1em 1em 1.5em;                     
+	 font-size: 100%;  
+	 table-layout: fixed; 	*/
+}
+
+#summary_section th, #summary_section td {  
+	 border-top: 1px solid black;             /* border around individual table cells */
+	 border-bottom: 1px solid black; 
+     border-left: 0px solid black; 
+	 border-right: 0px solid black; 
+	 padding: .2em .2em;
+     text-align: right; 
+	 font-weight: bold;  }
+
+#summary_section th {  
+     text-align: center; 
+	 background-color: #ffe6ff;
+	 background-color: #444; 
+	 color: white; }
+	 
+#summary_section td {  
+     text-align: right; 
+	 background-color: #deefde;
+	 background-color: #d6d6d6;
+	 color: black; }
+	 
+#summary_section .col1, #summary_section .col2, 
+#summary_section .col3  {   /* adjust padding to shift text left  */
+	 padding-right: 2.0em; }
+ 
+#summary_section .col4, #summary_section .col5, #summary_section .col6 {
+ text-align: center; }
+ 
+#summary_section .col1, #summary_section .col2, #summary_section .col3, 
+#summary_section .col4, #summary_section .col5, #summary_section th {
+	border-right: 1px solid black; }
+
+#summary_section .col1, #summary_section .col1th {
+	width: 8%;  }
+ 
+#summary_section .col2, #summary_section .col2th {
+	width: 8%;  }
+ 
+#summary_section .col3, #summary_section .col3th {
+	width: 8%;  }
+ 
+ #summary_section .col4, #summary_section .col4th {
+	width: 13%;  }
+ 
+ #summary_section .col5, #summary_section .col5th {
+	width: 25%;  }
+	
+ #summary_section .col5 {
+	color: #800000; 	}
+	
+ #summary_section .col6 {
+	width: 13%;  }	
+ 
+ #summary_section .red1  { background-color:  #cc0000; }    /* hot/cold colors  */
+ #summary_section .red2  { background-color:  #e06666; }    /* hot/cold colors  */
+ #summary_section .red3  { background-color:  #e99494; }    /* hot/cold colors  */
+ #summary_section .gray1  { background-color:  gray; }      /* hot/cold colors  */
+ #summary_section .blue2  { background-color: #d1f0ff; }    /* hot/cold colors  */
+ #summary_section .blue1  { background-color: #91daff; }    /* hot/cold colors  */
+ #summary_section .end1   {background-color: yellow; }       /* end of game color - loss */
+ #summary_section .end2   {background-color: lime; }       /* end of game color - win */
+ 
+#summary_section .high {
+ color: green; }
+ 
+#summary_section .low {
+ color: red; }
+ 
+ #summary_section .match {
+ color: blue; }
+ 
+#summary_section .col14 {
+ background-color: #ffe6ff; }
+ 
+ #data1 input {                          /* Enter guess text box */
+    margin-left: 1em;
+    margin-bottom: 0.5em;
+	margin-top: 1em; 
+	border: 2px solid #000000;
+	width: 5em; 
+}
+
+#data1 .limit {             /* shows valid number entry range */
+	color: blue; 
+	font-size: 80%; 
+	padding-left: 1em; }	
+
+#homelink {
+	padding-left: 8em; }
+
+/***************************************************************************************
+**   Page 2 -- bottom portion - Banners for winners & Submit button
+***************************************************************************************/	
+#banner_text .banner1 {                  /* banner for Congratulations message  */
+	color: blue; 
+	clear: both; 
+	font-size: 170%;  
+	text-align: center; }
+
+#banner_text .banner2 {                  /* banner for Congratulations message  */
+	color: maroon; 
+	clear: both; 
+	font-size: 150%;  
+	text-align: center; }
+
+#mine_list h2  {
+	padding-left88: 2em;  
+	font-size: 100%;  
+	color: black; }
+
+#mine_list p {
+	padding-left88: 4em; 
+	color: #421880;  
+	font-size: 90%;  }
+	
+#button_resub88 input {                     /* Resubmit button */
+    margin-left88: 5em;
+    margin-bottom: 0.5em;
+	margin-top: 1em; 
+	border: 2px solid #000000;
+	width: 7em;   }
+
+div.error_msg {
+    color: red; 
+    margin-top: 0.5rem; 
+}
+#imgwin, #imglose {
+    width: 50%; 
+    margin: 0 25% 1rem; 
+    padding: 0 13%; 
+    border: 5px solid #333; 
+}
+#imgwin {
+    background-color: darkslateblue; 
+}
+#imglose {
+    background-color: darkred; 
+}
+
+div.challenge_text_desc {
+    border: 1px solid #666; 
+    padding: 1em; 
+    background-color: palegreen; 
+    margin: 1em 0; 
+}
