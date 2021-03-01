@@ -15,6 +15,7 @@ const Guess = class {
 
         this.minesArray = gameDat.minesArray; 
         this.totNumbers = gameDat.totNumbers;
+        this.firstNumber = gameDat.firstNumber; 
         this.maxFreq = gameDat.maxFreq; 
         this.minFreq = gameDat.minFreq; 
 //        this.gameDat = gameDat; 
@@ -52,7 +53,7 @@ const Guess = class {
             console.log(`hotColdOutage = ${this.hotColdOutage}`); 
             if (this.hotColdOutage) {
                 console.log(`Test1`); 
-                if (Math.floor(Math.random() * 100) + 1 <= 20) {
+                if (Misc.getRandomNum(1, 100) <= 20) {
                     console.log(`Test2`); 
                     this.hotColdLvl = '???';  
                     this.hotColdClass = 'gray1';  
@@ -94,7 +95,7 @@ const Guess = class {
         var tmpVal = currVal; 
         if (!secondVal) secondVal = -1;   // used for when we have 2 moves of target in 1 turn
 		while (tmpVal == currVal || tmpVal == secondVal || this.minesArray.indexOf(tmpVal) >= 0) {
-            tmpVal = Math.floor(Math.random() * this.totNumbers) + 1;  
+            tmpVal = Misc.getRandomNum(this.firstNumber, this.totNumbers);  
         }		
         return tmpVal; 
 	}
@@ -102,7 +103,7 @@ const Guess = class {
     // should return a random number between the Min Freq and Max Freq inclusive 
     calculateNextMod() { 
         console.log(`calculateNextMod - ${this.maxFreq} - ${this.minFreq}`); 
-        return Math.floor(Math.random() * (this.maxFreq - this.minFreq + 1)) + this.minFreq;
+        return Misc.getRandomNum(this.minFreq, this.maxFreq);  //Math.floor(Math.random() * (this.maxFreq - this.minFreq + 1)) + this.minFreq;
     } 
 
     decrementNextMod() { 
@@ -119,7 +120,7 @@ const Guess = class {
             let complexType = ''; 
             if (this.complexMoves) {
                 console.log('complex moves'); 
-                let x = Math.floor(Math.random() * 100) + 1; 
+                let x = Misc.getRandomNum(1, 100);  // Math.floor(Math.random() * 100) + 1; 
                 if (x <= 20) complexType = 'twoMoves'; 
                 else if (x <= 40) complexType = 'eitherOr'; 
             }

@@ -25,8 +25,12 @@
 
             <section class="intro_hdr row" id="summary_section">	
                 <div class="intro_hdr col-md-4 col-sm-12 ml-4">Summary of Guesses </div>
-                <div class="diff_level col-md-7 col-sm-12">[ Level {{currGame.difficultyLevel}} -- 
-                    target moves every {{currGame.minFreq}} to {{currGame.maxFreq}} turns ]</div>	
+                <!---div class="diff_level col-md-7 col-sm-12">[ Level {{currGame.difficultyLevel}} -- 
+                    target moves every {{currGame.minFreq}} to {{currGame.maxFreq}} turns ]</div--->	
+                <div class="diff_level col-md-7 col-sm-12">[ {{currGame.blurb}} ]</div>	
+                <div class="intro_hdr col-md-4 col-sm-12 ml-4"></div>
+                <div class="diff_level2 col-md-7 offset-md-4 col-sm-12">{{currGame.blurb2}} </div>	
+                   
                 <table class="results col-md-11">
                     <tr>
                         <th class="col1 col-md-1 offset-md-1">Turn #</th>
@@ -83,6 +87,13 @@
                         <div id="buttons" class="ml-5 mt-2">
                             <label>&nbsp; </label>
                             <input type="submit" name="action" id="guess" value="Process Guess"/><br />
+                            {{#if currGame.infoArray}}
+                                <div class="info_div">
+                                {{#each currGame.infoArray}}
+                                    <div class="info_row"{{this}}</div>
+                                {{/each}}
+                                </div>
+                            {{/if}}
                             {{#if currGame.error}}
                                 <div class="error_msg">Invalid value entered.  Try again.</div>
                             {{/if}}

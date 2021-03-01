@@ -63,15 +63,21 @@ app.post('/begin', (req, res) => {
     // console.log(req.body); 
 
     var data = {}; 
-    data.diffLevelCheat = (req.body.diffLevel) ? req.body.diffLevel : '04'; 
-    data.hotcoldCheat = (req.body.hotColdCheat) ? true : false; 
-    data.totMinesCheat = (req.body.minefieldCheatNum) ? parseInt(req.body.minefieldCheatNum) : 0; 
-    data.addMinesCheat = (req.body.addMinesCheat) ? true : false; 
-    data.hotColdOutageCheat = (req.body.hotColdOutageCheat) ? true : false; 
-    data.complexMovesCheat = (req.body.complexMovesCheat) ? true : false; 
-    data.delayHotColdCheat = (req.body.delayHotColdCheatNum) ? parseInt(req.body.delayHotColdCheatNum) : 0; 
-    data.sizePuzzleModsCheat = (req.body.sizePuzzleModCheat) ? parseInt(req.body.sizePuzzleModCheat) : 0; 
-    data.stopDupsModCheat = (req.body.stopDupsModCheat) ? parseInt(req.body.stopDupsModCheat) : 0;
+    data.challengeLevel = (req.body.challengeCheatNum) ? parseInt(req.body.challengeCheatNum) : 0; 
+    if (data.challengeLevel > 0) getCheatVals(data); 
+    else {
+        data.diffLevelCheat = (req.body.diffLevel) ? req.body.diffLevel : '04'; 
+        data.hotcoldCheat = (req.body.hotColdCheat) ? true : false; 
+        data.totMinesCheat = (req.body.minefieldCheatNum) ? parseInt(req.body.minefieldCheatNum) : 0; 
+        data.addMinesCheat = (req.body.addMinesCheat) ? parseInt(req.body.addMinesCheat) : 0; 
+        data.hotColdOutageCheat = (req.body.hotColdOutageCheat) ? true : false; 
+        data.complexMovesCheat = (req.body.complexMovesCheat) ? true : false; 
+        data.delayHotColdCheat = (req.body.delayHotColdCheatNum) ? parseInt(req.body.delayHotColdCheatNum) : 0; 
+        data.sizePuzzleModsCheat = (req.body.sizePuzzleModCheat) ? parseInt(req.body.sizePuzzleModCheat) : 0; 
+        data.stopDupsModCheat = (req.body.stopDupsModCheat) ? parseInt(req.body.stopDupsModCheat) : 0;
+        data.challenge = 'Custom';  
+    }
+
     // console.log('data = ' + data); 
     currGame = new Game(data);  
 //b    console.log('currGame = ' + JSON.stringify(currGame)); 
@@ -138,4 +144,112 @@ app.listen(port, () => {    // port 3000 is default development port;  live HTML
 
 function isNormalInteger(str) {
     return /^\+?(0|[1-9]\d*)$/.test(str);
+}
+
+function getCheatVals(data) {
+    data.hotcoldCheat = true; 
+    data.totMinesCheat = 30; 
+    data.addMinesCheat = 0; 
+    data.hotColdOutageCheat = false; 
+    data.complexMovesCheat = false; 
+    data.delayHotColdCheat = 0; 
+    data.sizePuzzleModsCheat = 0; 
+    data.stopDupsModCheat =  0;
+
+    switch(data.challengeLevel) {
+        case 1: 
+            data.diffLevelCheat = '02'; 
+            data.totMinesCheat = 0; 
+            data.challenge = 'Beginner';
+            break; 
+        case 2: 
+            data.diffLevelCheat = '04'; 
+            data.challenge = 'Easy 1';
+            break; 
+        case 3: 
+            data.diffLevelCheat = '03'; 
+            data.totMinesCheat = 30; 
+            data.addMinesCheat = 3; 
+            data.challenge = 'Easy 2';
+            break; 
+        case 4: 
+            data.diffLevelCheat = '05'; 
+            data.totMinesCheat = 60; 
+            data.challenge = 'Medium 1';
+            break; 
+        case 5: 
+            data.diffLevelCheat = '05'; 
+            data.totMinesCheat = 30; 
+            data.addMinesCheat = 3; 
+            data.hotColdOutageCheat = true; 
+            data.challenge = 'Medium 2';
+            break; 
+        case 6: 
+            data.diffLevelCheat = '06'; 
+            data.totMinesCheat = 30; 
+            data.addMinesCheat = 3; 
+            data.hotColdOutageCheat = true; 
+            data.complexMovesCheat = true; 
+            data.challenge = 'Difficult 1';
+            break; 
+        case 7: 
+            data.diffLevelCheat = '06'; 
+            data.totMinesCheat = 90; 
+            data.complexMovesCheat = true; 
+            data.delayHotColdCheat = 1; 
+            data.challenge = 'Difficult 2';
+            break; 
+        case 8: 
+            data.diffLevelCheat = '06'; 
+            data.totMinesCheat = 60; 
+            data.addMinesCheat = 3; 
+            data.hotColdOutageCheat = true; 
+            data.complexMovesCheat = true; 
+            data.sizePuzzleModsCheat = 100;
+            data.challenge = 'Difficult 3';
+            break; 
+        case 9: 
+            data.diffLevelCheat = '07'; 
+            data.totMinesCheat = 30; 
+            data.addMinesCheat = 1; 
+            data.hotColdOutageCheat = false; 
+            data.complexMovesCheat = true; 
+            data.delayHotColdCheat = 2; 
+            data.stopDupsModCheat =  1;
+            data.challenge = 'Extreme Difficult 1';
+            break; 
+        case 10: 
+            data.diffLevelCheat = '07'; 
+            data.totMinesCheat = 120; 
+            data.addMinesCheat = 3; 
+            data.hotColdOutageCheat = true; 
+            data.complexMovesCheat = true; 
+            data.delayHotColdCheat = 1; 
+            data.sizePuzzleModsCheat = -50; 
+            data.stopDupsModCheat =  10;
+            data.challenge = 'Extreme Difficult 2';
+            break; 
+        case 11: 
+            data.diffLevelCheat = '07'; 
+            data.totMinesCheat = 150; 
+            data.addMinesCheat = 1; 
+            data.hotColdOutageCheat = true; 
+            data.complexMovesCheat = true; 
+            data.delayHotColdCheat = 2; 
+            data.sizePuzzleModsCheat = 100; 
+            data.stopDupsModCheat =  1;
+            data.challenge = 'Chaos 1';
+            break; 
+        case 12: 
+            data.diffLevelCheat = '07'; 
+            data.totMinesCheat = 120; 
+            data.addMinesCheat = 1; 
+            data.hotColdOutageCheat = true; 
+            data.complexMovesCheat = true; 
+            data.delayHotColdCheat = 3; 
+            data.sizePuzzleModsCheat = -100; 
+            data.stopDupsModCheat =  10;
+            data.challenge = 'Chaos 2';
+            break;         
+    }
 }

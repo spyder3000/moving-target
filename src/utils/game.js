@@ -3,59 +3,92 @@ const Removers = require('./removers');
 const Misc = require('./misc'); 
 
 const Game = class { 
-  constructor(dat) { 
-    // Basic game setup 
-    this.turnNumber = 1; 
-    this.guessValue = 0; 
-    this.totNumbers = (dat.totNumbers) ? dat.totNumbers : 1000; 
-    this.firstNumber = 1; 
-    this.maxGuesses = 40; 
-    this.gameArray = []; 
+    constructor(dat) { 
+        // Basic game setup 
+        this.turnNumber = 1; 
+        this.guessValue = 0; 
+        this.totNumbers = (dat.totNumbers) ? dat.totNumbers : 1000; 
+        this.firstNumber = 1; 
+        this.maxGuesses = 40; 
+        this.gameArray = []; 
+        this.challenge = dat.challenge; 
 
-    // Movement indicators
-    this.nextMod = -1; 
-    this.targetMoved = false; 
+        // Movement indicators
+        this.nextMod = -1; 
+        this.targetMoved = false; 
 
-    // Cheats
-    this.diffLevelCheat = dat.diffLevelCheat; 
-    this.hotColdCheat = dat.hotcoldCheat;
-    this.hotColdOutage = dat.hotColdOutageCheat; 
-    this.complexMoves = dat.complexMovesCheat; 
-    this.delayHotCold = (dat.delayHotColdCheat) ? dat.delayHotColdCheat : 0; 
+        // Cheats
+        this.diffLevelCheat = dat.diffLevelCheat; 
+        this.hotColdCheat = dat.hotcoldCheat;
+        this.hotColdOutage = dat.hotColdOutageCheat; 
+        this.complexMoves = dat.complexMovesCheat; 
+        this.delayHotCold = (dat.delayHotColdCheat) ? dat.delayHotColdCheat : 0; 
 
-    // Mines
-    this.mine = (dat.totMinesCheat <= 0) ? false : true; 
-    this.totMines = (dat.totMinesCheat) ? dat.totMinesCheat : 0; 
-    this.addMines = dat.addMinesCheat; 
-    this.minesArray = []; 
+        // Mines
+        this.mine = (dat.totMinesCheat <= 0) ? false : true; 
+        this.totMines = (dat.totMinesCheat) ? dat.totMinesCheat : 0; 
+        this.addMines = dat.addMinesCheat; 
+        this.minesArray = []; 
 
-    // End of Game indicators
-    this.finished = false; 
-    this.success = false; 
-    this.failure = false; 
+        // End of Game indicators
+        this.finished = false; 
+        this.success = false; 
+        this.failure = false; 
 
-    // data to keep track of puzzle increasing or decreasing in size;  
-    this.sizePuzzleMods = (dat.sizePuzzleModsCheat) ? dat.sizePuzzleModsCheat : 0; 
-    this.turnsSinceMod = 0;  
+        // data to keep track of puzzle increasing or decreasing in size;  
+        this.sizePuzzleMods = (dat.sizePuzzleModsCheat) ? dat.sizePuzzleModsCheat : 0; 
+        this.turnsSinceMod = 0;  
 
-    // data for removing Selectable numbers from grid 
-    this.stopDupsMod = (dat.stopDupsModCheat) ? dat.stopDupsModCheat : 0; 
-    this.removeInd = (this.stopDupsMod > 0) ? true : false; 
-    this.removedNumsText = ''; 
-    this.removers = new Removers(this.stopDupsMod); 
-    // console.log('GGG ' + this.stopDupsMod); 
+        // data for removing Selectable numbers from grid 
+        this.stopDupsMod = (dat.stopDupsModCheat) ? dat.stopDupsModCheat : 0; 
+        this.removeInd = (this.stopDupsMod > 0) ? true : false; 
+        this.removedNumsText = ''; 
+        this.removers = new Removers(this.stopDupsMod); 
+        // console.log('GGG ' + this.stopDupsMod); 
 
-    // initializes key values 
-    if (this.mine) this.populateMines(); 
-    this.populateMoveFrequency(); 
-    this.targetValue = this.randTargetValue();        // get initial target values AFTER placing mines
-    this.nextTargetValue = this.targetValue;  
-    this.calculateNextMod();                          // populates this.nextMod
-  } 
-  
+        // initializes key values 
+//        this.blurb = this.getBlurb(); 
+        if (this.mine) this.populateMines(); 
+        this.populateMoveFrequency(); 
+        this.targetValue = this.randTargetValue();        // get initial target values AFTER placing mines
+        this.nextTargetValue = this.targetValue;  
+        this.calculateNextMod();                          // populates this.nextMod
+        this.getBlurb(); 
+    } 
+
+    getBlurb() {
+        console.log('BEGIN blurb'); 
+        this.blurb = this.challenge + ' - target moves every ' + this.minFreq;
+        console.log('1 - ' + this.blurb); 
+        if (this.maxFreq > this.minFreq) this.blurb += ' to ' + this.maxFreq + ' turns'; 
+        else this.blurb += ' turn'; 
+        console.log('2 - ' + this.blurb); 
+        this.blurb += '; ' +this.totMines + ' mines'; 
+        if (this.addMines == 1) this.blurb += '; + added mines each turn'; 
+        else if (this.addMines == 3) this.blurb += '; + added mines every 3 turns'; 
+
+        console.log('3 - ' + this.blurb); 
+        this.blurb2 = ''; 
+        if (this.hotColdOutage && this.delayHotCold > 0) this.blurb2 += '; Hot/Cold Outage AND Delay';  
+        else if (this.hotColdOutage) this.blurb2 += '; Hot/Cold Outage';
+        else if (this.delayHotCold > 0) this.blurb2 += '; Hot/Cold Delay';  
+        
+        if (this.complexMoves) this.blurb2 += '; Complex Moves';  
+        console.log('4 - ' + this.blurb2); 
+
+        if (this.sizePuzzleMods > 0) this.blurb2 += '; Puzzle size increase by ' + this.sizePuzzleMods; 
+        else if (this.sizePuzzleMods < 0) this.blurb2 += '; Puzzle size decrease by ' + Math.abs(this.sizePuzzleMods); 
+        console.log('5 - ' + this.blurb2); 
+        if (this.stopDupsMod == 1) this.blurb2 += '; Remove guessed nums'; 
+        else if (this.stopDupsMod == 5) this.blurb2 += '; Remove blocks of 5 nums'; 
+        else if (this.stopDupsMod == 10) this.blurb2 += '; Remove blocks of 10 nums'; 
+        console.log('6 - ' + this.blurb2); 
+        this.blurb2 = this.blurb2.replace('; ', '');
+    }  
+
     populateMines() {
         while (this.minesArray.length < this.totMines) {
-            let temp = Math.floor(Math.random() * this.totNumbers) + 1; 
+            let temp = Misc.getRandomNum(1, this.totNumbers);  // Math.floor(Math.random() * this.totNumbers) + 1; 
 //            console.log('temp = ' + temp); 
             if (this.minesArray.indexOf(temp) < 0) this.minesArray.push(temp); 
         }	
@@ -95,7 +128,7 @@ const Game = class {
     randTargetValue(currVal) {
         var tmpVal = currVal; 
         while (tmpVal == currVal || this.minesArray.indexOf(tmpVal) >= 0) {
-            tmpVal = Math.floor(Math.random() * this.totNumbers) + 1;  
+            tmpVal = Misc.getRandomNum(this.firstNumber, this.totNumbers);  // Math.floor(Math.random() * this.totNumbers) + 1;  
         }		
         return tmpVal; 
     }
@@ -121,7 +154,7 @@ const Game = class {
     
     // should return a random number between the Min Freq and Max Freq inclusive 
     calculateNextMod() { 
-        this.nextMod = Math.floor(Math.random() * (this.maxFreq - this.minFreq + 1)) + this.minFreq;
+        this.nextMod = Misc.getRandomNum(this.minFreq, this.maxFreq);  // Math.floor(Math.random() * (this.maxFreq - this.minFreq + 1)) + this.minFreq;
     } 
 
     decrementNextMod() { 
@@ -129,28 +162,30 @@ const Game = class {
     } 
 
     processGuess(userGuess) {
+        this.infoArray = []; 
         this.guessValue = parseInt(userGuess); 
         console.log('Game processGuess -- nextMod BEFORE = ' + this.nextMod); 
         var tmpGuess = new Guess(this.guessValue, this);
         this.modGameData(tmpGuess); 
         console.log('Game processGuess -- nextMod AFTER = ' + this.nextMod + '; currTarg = ' + this.targetValue 
             + '; nextTarg = ' + this.nextTargetValue); 
-/*        console.log(`A1 = ${this.finished}`); 
-        console.log(`A2 = ${this.addMines}`); 
-        console.log(`A3 = ${this.turnNumber}`); */
-        // console.log(`A4 = ${this.sizePuzzleMods}`);
-        // console.log(`A5 = ${this.stopDupsMod}`);
-        if (!this.finished && this.addMines && this.turnNumber % 3 == 0 && this.turnNumber > 0 ) {
-            this.addNewMines(10); 
+
+        if (!this.finished && this.addMines > 0  && this.turnNumber > 0 ) {
+            if ((this.addMines == 3 && this.turnNumber % 3 == 0) || this.addMines == 1)  {
+                this.addNewMines(10); 
+                this.infoArray.push('10 Mines added'); 
+            }
         }
         if (!this.finished && this.stopDupsMod > 0) {
             if (this.stopDupsMod == 1) {
                 this.removers.removeSingle(userGuess); 
+                this.infoArray.push('Value ' + userGuess + ' removed from grid'); 
                 // console.log(this.removers.removedNums); 
                 // console.log(this.removers.displayArray);
             } else if (this.stopDupsMod > 1) {
 //                this.removers.removeSingle(userGuess); 
                 this.removers.removeBlock(userGuess, this.totNumbers, this.targetMoved); 
+                this.infoArray.push('Block ???' + ' removed from grid'); 
                 console.log('remove Block -- ' + this.removers.removedNums);                
             }
             this.removedNumsText = this.removers.getDisplayArrayString(); 
@@ -159,8 +194,16 @@ const Game = class {
         if (!this.finished && this.sizePuzzleMods != 0) {
             this.turnsSinceMod++; 
             if (this.turnsSinceMod > 3) {
-                if (this.sizePuzzleMods < 0) this.decreasePuzzleSize();
-                else this.increasePuzzleSize(); 
+                if (this.sizePuzzleMods < 0) {
+                    this.decreasePuzzleSize();
+                    this.infoArray.push('Puzzle Size decreased by ' + Math.abs(this.sizePuzzleMods)); 
+                    this.infoArray.push('Valid number range is now ' + this.firstNumber + ' thru ' + this.totNumbers); 
+                }
+                else {
+                    this.increasePuzzleSize(); 
+                    this.infoArray.push('Puzzle Size increased by ' + Math.abs(this.sizePuzzleMods)); 
+                    this.infoArray.push('Valid number range is now ' + this.firstNumber + ' thru ' + this.totNumbers); 
+                }
                 this.turnsSinceMod = 0; 
             } 
         }

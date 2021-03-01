@@ -39,17 +39,19 @@
                         <div class="ckbox col-md-12">
                             <div class="select_challenge_div">
                                 <select id="challenge" class="select_challenge" name="challengeCheatNum">
-                                    <option value="1">Beginner</option>
-                                    <option value="2" selected>Easy 1</option>
+                                    <option value="1" selected>Beginner</option>
+                                    <option value="2">Easy 1</option>
                                     <option value="3">Easy 2</option>
                                     <option value="4">Medium 1</option>
                                     <option value="5">Medium 2</option>
                                     <option value="6">Difficult 1</option>
                                     <option value="7">Difficult 2</option>
                                     <option value="8">Difficult 3</option>
-                                    <option value="9">Super Difficult 1</option>
-                                    <option value="10">Super Difficult 2</option>
-                                    <option value="0">Custom</option>
+                                    <option value="9">Advanced 1</option>
+                                    <option value="10">Advanced 2</option>
+                                    <option value="11">Extreme 1</option>
+                                    <option value="12">Extreme 2</option>
+                                    <option value="0">** Custom **</option>
                                 </select>
                                 <span class="cktext"> - Choose a specific Challenge level OR choose custom to set the parameters yourself</span>
                             </div> 
@@ -111,9 +113,20 @@
                         <div class="added_chaos col-md-12">
                             <h2 class="col-md-12">More Chaos</h2>
                             <div class="ckbox col-md-12">
-                                <input type="checkbox" name="addMinesCheat">
+                                <!---input type="checkbox" name="addMinesCheat">
                                 <div class="cktext"> <b>Added Mines</b>
-                                    - Adds additional mines after every 3 turns</div> 
+                                    - Adds additional mines after every 3 turns</div---> 
+
+                                <div class="bullet">*</div> 
+                                <div class="select_cheat_div">
+                                    <select id="addMinesCheat" name="addMinesCheat">
+                                        <option value="0">No Extra Mines</option>
+                                        <option value="3">Add 10 mines / 3 turns</option>
+                                        <option value="1">Add 10 mines / turn</option>
+                                    </select> 
+                                    <span class="cktext"> - Adds additional mines to the grid </span>
+                                </div>
+
                             </div><br>
 
                             <div class="ckbox col-md-12">

@@ -5,8 +5,11 @@ const hotColdCheat = document.querySelector('input[name=hotColdCheat]');
 const minefieldCheat = document.querySelector('input[name=minefieldCheat]'); 
 const challenge = document.querySelector('#challenge'); 
 const challenge_desc = document.querySelector('div.challenge_text_desc'); 
-
 const customSections = document.querySelectorAll('span.custom'); 
+
+// Initial value 
+challenge_desc.style.display = 'block'; 
+challenge_desc.innerHTML = '<b>** Beginner Level challenge. **</b>  <br> No mines.  <br> Target Moves every 2 to 7 turns';  
 
 customSections.forEach(function(item) {
    item.style.display = 'none';  
@@ -29,16 +32,19 @@ challenge.addEventListener('change', (e) => {
 }); 
 
 getHTML = (val) => {
-    if (val == '1') return '<b>** Beginner Level challenge. **</b>  <br> No mines.  <br> Target Moves every 2 to 7 turns'; 
-    if (val == '2') return '<b>** Easy Level challenge. **</b>  <br> 30 mines.  <br> Target Moves every 1 to 4 turns'; 
-    if (val == '3') return '<b>** Easy Level challenge. **</b>  <br> 30 mines.  Added mines every 3 turns. <br> Target Moves every 2 to 5 turns'; 
-    if (val == '4') return '<b>** Medium Level challenge. **</b>  <br> 60 mines.  <br> Target Moves every 1 to 3 turns'; 
-    if (val == '5') return '<b>** Medium Level challenge. **</b>  <br> 30 mines.  Added mines every 3 turns <br> Hot/Cold Outage <br> Target Moves every 1 to 3 turns'; 
-    if (val == '6') return '<b>** Difficult Level challenge. **</b>  <br> 30 mines.  Added mines every 3 turns. <br>  Complex Moves.  Hot/Cold Outage. <br> Target Moves every 1 to 2 turns'; 
-    if (val == '7') return '<b>** Difficult Level challenge. **</b>  <br> 90 mines.  Hot/Cold Delayed 1 Turn <br> Complex moves <br>  Target Moves every 1 to 2 turns' ; 
-    if (val == '8') return '<b>** Difficult Level challenge. **</b>  <br> 60 mines.  Added mines every 3 turns.  <br>  Complex Moves.  Hot/Cold Outage.  <br> Board expands by 100 every 4 moves <br> Target Moves every 1 to 4 turns'; 
-    if (val == '9') return '<b>** Super Difficul Level challenge. **</b>  <br> 30 mines.  Added mines every 3 turns. <br>  Hot/Cold Delayed 3 Turns <br> Complex moves.  Hot/Cold Outage.  <br>  Target Moves every turn'; 
-    if (val == '10') return '<b>** Super Difficul Level challenge. **</b>  <br> 120 mines.  Added mines every 3 turns. <br>  Hot/Cold Delayed 2 Turns <br> Complex moves.  Hot/Cold Outage. <br>  Board decreases by 50 every 4 moves. <br> Guessed numbers & blocks of 10 removed from grid<br> Target Moves every turn'; 
+    if (val == '1') return '<div class="h1_lvl">Beginner Level</b></div>   * No mines.  <br> * Target Moves every 2 to 7 turns'; 
+    if (val == '2') return '<div class="h1_lvl"><b>Easy Level </b></div>   * 30 mines.  <br> * Target Moves every 1 to 4 turns'; 
+    if (val == '3') return '<div class="h1_lvl"><b>Easy Level </b></div>   * 30 mines.  Added mines every 3 turns. <br> * Target Moves every 2 to 5 turns'; 
+    if (val == '4') return '<div class="h1_lvl"><b>Medium Level </b></div>  * 60 mines.  <br> * Target Moves every 1 to 3 turns'; 
+    if (val == '5') return '<div class="h1_lvl"><b>Medium Level </b></div>   * 30 mines.  Added mines every 3 turns <br> * Hot/Cold Outage <br> * Target Moves every 1 to 3 turns'; 
+    if (val == '6') return '<div class="h1_lvl"><b>Difficult Level </b></div>  * 30 mines.  Added mines every 3 turns. <br>  * Complex Moves.  Hot/Cold Outage. <br> * Target Moves every 1 to 2 turns'; 
+    if (val == '7') return '<div class="h1_lvl"><b>Difficult Level </b></div>  * 90 mines.  Hot/Cold Delayed 1 Turn <br> * Complex moves <br>  * Target Moves every 1 to 2 turns' ; 
+    if (val == '8') return '<div class="h1_lvl"><b>Difficult Level </b></div>  * 60 mines.  Added mines every 3 turns.  <br>  * Complex Moves.  Hot/Cold Outage.  <br> * Board expands by 100 every 4 moves <br> * Target Moves every 1 to 2 turns'; 
+    if (val == '9') return '<div class="h1_lvl"><b>Advanced Level </b></div>  * 30 mines.  Added mines every turn. <br>  * Hot/Cold Delayed 3 Turns <br> * Complex moves.  Hot/Cold Outage.  <br>  * Target Moves every turn'; 
+    if (val == '10') return '<div class="h1_lvl"><b>Advanced Level </b></div>  * 120 mines.  Added mines every 3 turns. <br> * Complex moves.  Hot/Cold Outage. <br>  * Hot/Cold Delayed 1 Turn <br> * Board decreases by 50 every 4 moves. <br> * Guessed nums & blocks of 10 removed from grid<br> * Target Moves every turn'; 
+    if (val == '11') return '<div class="h1_lvl"><b>Extreme Level </b></div>  * 150 mines.  Added mines every turn. <br>  * Complex moves.  Hot/Cold Outage. <br> * Hot/Cold Delayed 2 Turns <br>  * Board expands by 100 every 4 moves. <br> * Guessed nums removed from grid<br> * Target Moves every turn'; 
+    if (val == '12') return '<div class="h1_lvl"><b>Extreme Level </b></div>  * 120 mines.  Added mines every turn. <br>  * Complex moves.  Hot/Cold Outage. <br>  * Hot/Cold Delayed 3 Turns <br> * Board decreases by 50 every 4 moves. <br> * Guessed nums & blocks of 10 removed from grid<br> * Target Moves every turn'; 
+
     else return 'to be determined'; 
 }
 

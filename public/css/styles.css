@@ -340,7 +340,7 @@ select.select_cheats {
 	font-size: 100%; 
 	font-weight: bold; 
 	padding: 0.2rem; 
-	padding-bottom: 0.5rem;
+	padding-bottom: 0rem;
 	display: inline-block; 
 }
 
@@ -348,10 +348,18 @@ select.select_cheats {
 	color: blue; 
 	font-size: 90%; 
 	padding: 0.2rem; 
-	padding-bottom: .5rem; 
+	padding-bottom: 0rem; 
 	display: inline-block; 
 }
 	
+#summary_section .diff_level2 {
+	color: #333; 
+	font-size: 90%; 
+	padding: 0.2rem; 
+	padding-bottom: .5rem; 
+	display: inline-block; 
+	margin-left: 1rem;
+}
 
 #summary_section table {   
 	 border: 1px solid black;             
@@ -513,4 +521,11 @@ div.challenge_text_desc {
     padding: 1em; 
     background-color: palegreen; 
     margin: 1em 0; 
+}
+div.h1_lvl {
+	margin-bottom: 0.5rem; 
+}
+div.info_div {
+	margin-left: 2rem; 
+	margin-top: 1rem; 
 }
