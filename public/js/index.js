@@ -9,7 +9,7 @@ const customSections = document.querySelectorAll('span.custom');
 
 // Initial value 
 challenge_desc.style.display = 'block'; 
-challenge_desc.innerHTML = '<b>** Beginner Level challenge. **</b>  <br> No mines.  <br> Target Moves every 2 to 7 turns';  
+challenge_desc.innerHTML = '<div class="h1_lvl"><b>Beginner Level</b></div>   * No mines.  <br> * Target Moves every 2 to 7 turns';  
 
 customSections.forEach(function(item) {
    item.style.display = 'none';  
@@ -32,7 +32,7 @@ challenge.addEventListener('change', (e) => {
 }); 
 
 getHTML = (val) => {
-    if (val == '1') return '<div class="h1_lvl">Beginner Level</b></div>   * No mines.  <br> * Target Moves every 2 to 7 turns'; 
+    if (val == '1') return '<div class="h1_lvl"><b>Beginner Level</b></div>   * No mines.  <br> * Target Moves every 2 to 7 turns'; 
     if (val == '2') return '<div class="h1_lvl"><b>Easy Level </b></div>   * 30 mines.  <br> * Target Moves every 1 to 4 turns'; 
     if (val == '3') return '<div class="h1_lvl"><b>Easy Level </b></div>   * 30 mines.  Added mines every 3 turns. <br> * Target Moves every 2 to 5 turns'; 
     if (val == '4') return '<div class="h1_lvl"><b>Medium Level </b></div>  * 60 mines.  <br> * Target Moves every 1 to 3 turns'; 

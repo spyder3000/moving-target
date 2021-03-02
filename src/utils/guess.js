@@ -35,7 +35,6 @@ const Guess = class {
         if (this.minesArray && this.minesArray.length > 0) {
             this.explode = this.checkMines(); 
         }
-        console.log('CCC ' + this.explode); 
     } 
   
     compareNumber() {      
@@ -60,7 +59,6 @@ const Guess = class {
                     return; 
                 }  
             }
-            console.log(`Test3`); 
 			var diff = Math.abs(this.guessValue - this.targetValue);  
 			if (diff <= 10)  {
 				this.hotColdLvl = 'very hot';  
@@ -82,16 +80,13 @@ const Guess = class {
 				this.hotColdClass = 'blue1';  }				
 		}	
 	}	
-   
+
+    // checks if guess = any of the mines in array
     checkMines()  {
-        console.log('BBB ' + this.guessValue); 
-        console.log('BBB ' + this.minesArray); 
-        console.log('BBB ' + this.minesArray.indexOf(this.guessValue)); 
         return (this.minesArray.indexOf(this.guessValue) >= 0) ? true : false;   
     }	
 
     randTargetValue(currVal, secondVal) {
-//		this.targetValue = this.nextTargetValue;  
         var tmpVal = currVal; 
         if (!secondVal) secondVal = -1;   // used for when we have 2 moves of target in 1 turn
 		while (tmpVal == currVal || tmpVal == secondVal || this.minesArray.indexOf(tmpVal) >= 0) {
@@ -162,18 +157,11 @@ const Guess = class {
         let coinFlip = Misc.getRandomNum(0, 1); 
 
         if (val < 100) return val + (100 * rnd);  
-        console.log('moved = ' + this.totNumbers + '; ' + val + '; ' + rnd + '; ' + coinFlip); 
-//        if (this.totNumbers - val < 100) return val - (100 * rnd);  
         if (val < 200 && coinFlip == 0) return val - 100; 
-        console.log('one'); 
         if (val < 200) return val + (100 * rnd);  
-        console.log('two'); 
         if (this.totNumbers - val < 200 && coinFlip == 0) return val + 100;   
-        console.log('three'); 
         if (this.totNumbers - val < 200) return val + (100 * rnd); 
-        console.log('four'); 
         if (coinFlip == 0) return val - (100 * rnd); 
-        console.log('five'); 
         return val + (100 * rnd); 
     }	
 };  

@@ -20,11 +20,12 @@ const Removers = class {
     }
     
     removeBlock(num, totNums, targetMoved) {
-        // nextMod == 1 means that the target will be moving this turn, so we can remove the current block
-        if (num && targetMoved) {
+        // targetMoved means that the target will be moving this turn, so we can remove the current block
+        let blk = ''; 
+        if (targetMoved) {
             console.log('CC - num found = ' + num + '; targetMoved = ' + targetMoved); 
             // Remove a block at the current location of size this.blockSize
-            let blk = Math.floor((num - 1) / this.blockSize);    // e.g. 0 thru 199
+            blk = Math.floor((num - 1) / this.blockSize);    // e.g. 0 thru 199
             if (this.removedBlocks.indexOf(blk) < 0) {
                 console.log('CC -- blk = ' + blk); 
                 this.removedBlocks.push(blk);  
@@ -39,13 +40,14 @@ const Removers = class {
         else {
             // Remove a Random block of size this.blockSize
             let x = false; 
-            console.log('EE -- '); 
+            let currNumBlock = this.getNumBlock(num); 
+            console.log('EE1 -- ' + currNumBlock); 
             while (!x) {
                 let totBlocks = Math.floor(totNums / this.blockSize); 
-                console.log('EE totBlocks = ' + totBlocks); 
-                let blk = Misc.getRandomNum(0, totBlocks - 1); 
-                console.log('EE misc num = ' + blk); 
-                if (this.removedBlocks.indexOf(blk) < 0) {
+                console.log('EE2 totBlocks = ' + totBlocks); 
+                blk = Misc.getRandomNum(0, totBlocks - 1); 
+                console.log('EE3 misc num = ' + blk); 
+                if (this.removedBlocks.indexOf(blk) < 0 && blk != currNumBlock) {
                     this.removedBlocks.push(blk);  
                     for (let i = 1; i <=this.blockSize; i++) {
                         this.removedBlockNums.push((blk * this.blockSize) + i);  
@@ -58,6 +60,11 @@ const Removers = class {
         }
         this.populateDisplayArray(); 
         console.log('CCEE -- blocks = ' + this.displayArray.toString()); 
+        return blockToString(blk, this.blockSize); 
+    }
+
+    getNumBlock(num) {
+        return Math.floor(num / this.blockSize); 
     }
 
     modRemovedNumbers(blk) {
@@ -114,6 +121,13 @@ function compare(a, b) {
         comparison = -1;
     }
     return comparison;
+}
+
+// e.g. return 101 - 110 for blk 11 w/ size 10;  
+function blockToString(blk, blkSize) {
+    let tmpBegin = blk * blkSize + 1; 
+    let tmpEnd = (blk + 1 ) * blkSize; 
+    return tmpBegin.toString() + ' - ' + tmpEnd.toString(); 
 }
 
 module.exports = Removers; 

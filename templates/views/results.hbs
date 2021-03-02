@@ -84,23 +84,24 @@
                             <span class="limit">value must be between {{currGame.firstNumber}} and {{currGame.totNumbers}}</span> <br />
                         </div>
 
-                        <div id="buttons" class="ml-5 mt-2">
+                        <div id="buttons" class="col-sm-12 ml-5 mt-2">
                             <label>&nbsp; </label>
                             <input type="submit" name="action" id="guess" value="Process Guess"/><br />
-                            {{#if currGame.infoArray}}
-                                <div class="info_div">
-                                {{#each currGame.infoArray}}
-                                    <div class="info_row"{{this}}</div>
-                                {{/each}}
-                                </div>
-                            {{/if}}
                             {{#if currGame.error}}
                                 <div class="error_msg">Invalid value entered.  Try again.</div>
+                            {{/if}}
+                            {{#if currGame.infoArray}}
+                                <ul class="info_div mt-3">
+                                {{#each currGame.infoArray}}
+                                    <li class="info_row ml-3">{{this}}</li>
+                                {{/each}}
+                                </ul>
                             {{/if}}
                         </div>	
                     </div>
                     <div class="col-md-5 mt-3">
-                        <div><span class="tot_mines_text"><b>Total Mines:</b> </span> <span class="tot_mines_num">{{currGame.totMines}}</span></div>
+                        <div><span class="tot_valids_text"><b>Total Selectable Numbers:</b> </span> <span class="tot_valids_num">{{currGame.totValids}}</span></div>
+                        <div><span class="tot_mines_text"><b>Total Active Mines:</b> </span> <span class="tot_mines_num">{{currGame.totMinesActive}}</span></div>
                         <div><span class="removed_text"><b>Removed Numbers</b> (cannot be selected): </span></div>
                         <div class="ml-4">{{#if currGame.removeInd}}
                             <span class="removed_nums">{{currGame.removedNumsText}}</span> {{/if}}

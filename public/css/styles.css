@@ -505,7 +505,7 @@ div.error_msg {
 }
 #imgwin, #imglose {
     width: 50%; 
-    margin: 0 25% 1rem; 
+    margin: 0 25% 2rem; 
     padding: 0 13%; 
     border: 5px solid #333; 
 }

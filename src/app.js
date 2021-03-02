@@ -216,7 +216,7 @@ function getCheatVals(data) {
             data.complexMovesCheat = true; 
             data.delayHotColdCheat = 2; 
             data.stopDupsModCheat =  1;
-            data.challenge = 'Extreme Difficult 1';
+            data.challenge = 'Advanced 1';
             break; 
         case 10: 
             data.diffLevelCheat = '07'; 
@@ -227,7 +227,7 @@ function getCheatVals(data) {
             data.delayHotColdCheat = 1; 
             data.sizePuzzleModsCheat = -50; 
             data.stopDupsModCheat =  10;
-            data.challenge = 'Extreme Difficult 2';
+            data.challenge = 'Advanced 2';
             break; 
         case 11: 
             data.diffLevelCheat = '07'; 
@@ -238,7 +238,7 @@ function getCheatVals(data) {
             data.delayHotColdCheat = 2; 
             data.sizePuzzleModsCheat = 100; 
             data.stopDupsModCheat =  1;
-            data.challenge = 'Chaos 1';
+            data.challenge = 'Extreme 1';
             break; 
         case 12: 
             data.diffLevelCheat = '07'; 
@@ -249,7 +249,7 @@ function getCheatVals(data) {
             data.delayHotColdCheat = 3; 
             data.sizePuzzleModsCheat = -100; 
             data.stopDupsModCheat =  10;
-            data.challenge = 'Chaos 2';
+            data.challenge = 'Extreme 2';
             break;         
     }
 }
