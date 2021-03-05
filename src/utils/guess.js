@@ -5,20 +5,20 @@ const Guess = class {
         this.turnNumber = gameDat.turnNumber; 
         this.guessValue = guessValue; 
         this.targetValue = gameDat.targetValue; 
-        this.nextTargetValue = gameDat.nextTargetValue; 
+//d        this.nextTargetValue = gameDat.nextTargetValue; 
         this.hotColdCheat = gameDat.hotColdCheat; 
         this.hotColdOutage = gameDat.hotColdOutage; 
-        this.complexMoves = gameDat.complexMoves; 
-        this.delayHotCold = gameDat.delayHotCold; 
-        this.sizePuzzleMods = gameDat.sizePuzzleMods; 
-        this.showHotCold = (this.delayHotCold <= 0) ? true : false; 
+ //d       this.complexMoves = gameDat.complexMoves; 
+//d        this.delayHotCold = gameDat.delayHotCold; 
+//d        this.sizePuzzleMods = gameDat.sizePuzzleMods; 
+        this.showHotCold = (gameDat.delayHotCold <= 0) ? true : false; 
 
         this.minesArray = gameDat.minesArray; 
-        this.totNumbers = gameDat.totNumbers;
-        this.firstNumber = gameDat.firstNumber; 
-        this.maxFreq = gameDat.maxFreq; 
-        this.minFreq = gameDat.minFreq; 
-//        this.gameDat = gameDat; 
+//d        this.totNumbers = gameDat.totNumbers;
+//d        this.firstNumber = gameDat.firstNumber; 
+//d        this.maxFreq = gameDat.maxFreq; 
+//d        this.minFreq = gameDat.minFreq; 
+//d        this.removers = gameDat.removers;  
 
         this.result = '';         // result of guess (too high, too low, match)
         this.resultClass = '';    // class of result (used for formatting $result value)
@@ -30,8 +30,7 @@ const Guess = class {
         this.explode = false; 
 
         this.compareNumber(); 
-        this.checkMove(); 
-        console.log('AAA = ' + this.minesArray.length); 
+
         if (this.minesArray && this.minesArray.length > 0) {
             this.explode = this.checkMines(); 
         }
@@ -49,7 +48,6 @@ const Guess = class {
 			this.resultClass = 'match';  }
 
 		if (this.hotColdCheat)  {
-            console.log(`hotColdOutage = ${this.hotColdOutage}`); 
             if (this.hotColdOutage) {
                 console.log(`Test1`); 
                 if (Misc.getRandomNum(1, 100) <= 20) {
@@ -85,85 +83,5 @@ const Guess = class {
     checkMines()  {
         return (this.minesArray.indexOf(this.guessValue) >= 0) ? true : false;   
     }	
-
-    randTargetValue(currVal, secondVal) {
-        var tmpVal = currVal; 
-        if (!secondVal) secondVal = -1;   // used for when we have 2 moves of target in 1 turn
-		while (tmpVal == currVal || tmpVal == secondVal || this.minesArray.indexOf(tmpVal) >= 0) {
-            tmpVal = Misc.getRandomNum(this.firstNumber, this.totNumbers);  
-        }		
-        return tmpVal; 
-	}
-    
-    // should return a random number between the Min Freq and Max Freq inclusive 
-    calculateNextMod() { 
-        console.log(`calculateNextMod - ${this.maxFreq} - ${this.minFreq}`); 
-        return Misc.getRandomNum(this.minFreq, this.maxFreq);  //Math.floor(Math.random() * (this.maxFreq - this.minFreq + 1)) + this.minFreq;
-    } 
-
-    decrementNextMod() { 
-        this.nextMod--;
-    } 
-
-    //-------------------------------------------------------------------------------------	
-    //  checks the NextMod counter to determine if it's time for the target value to move;
-    //     if so a new target value is found & a new counter for the next move is found
-    //-------------------------------------------------------------------------------------
-	checkMove(nextMod, totalNumbers, minFreq, maxFreq)  {
-		if (this.nextMod == 1)  {
-            this.targetMoved = true;       // indicates the target moved this turn;
-            let complexType = ''; 
-            if (this.complexMoves) {
-                console.log('complex moves'); 
-                let x = Misc.getRandomNum(1, 100);  // Math.floor(Math.random() * 100) + 1; 
-                if (x <= 20) complexType = 'twoMoves'; 
-                else if (x <= 40) complexType = 'eitherOr'; 
-            }
-
-            // Logic to Handle Two Moves OR Either/or Move, OR just regular move 
-            var oldValue = this.targetValue; 
-            if (complexType == 'twoMoves') {
-                let move1 = this.randTargetValue(oldValue);
-                this.nextTargetValue = this.randTargetValue(oldValue, move1); 
-                this.moveInfo = 'target moved by ' + Math.abs(oldValue - move1) + ', then by ' 
-                                    + Math.abs(this.nextTargetValue - move1);
-            }  else {
-                this.nextTargetValue = this.randTargetValue(oldValue); 
-                if (complexType == 'eitherOr') {
-                    let realDist = Math.abs(oldValue - this.nextTargetValue); 
-                    let alternateDist = this.getAlternate(realDist); 
-                    if (alternateDist < realDist) {
-                        this.moveInfo = 'target moved by ' + alternateDist  + ' OR ' + realDist;  
-                    } else {
-                        this.moveInfo = 'target moved by ' + realDist  + ' OR ' + alternateDist; 
-                    }
-                }
-                else {
-                    this.moveInfo = 'target moved by ' + Math.abs(oldValue - this.nextTargetValue);   
-                }
-
-            }
-			this.nextMod = this.calculateNextMod(); 
-        }
-        else  {
-            this.targetMoved = false;
-            this.nextMod--;
-        } 
-    }
-
-    // logic to add/subtract either 100 or 200 to the real distance of move
-    getAlternate(val) {  // val is total distance moved
-        let rnd = Misc.getRandomNum(1, 2); 
-        let coinFlip = Misc.getRandomNum(0, 1); 
-
-        if (val < 100) return val + (100 * rnd);  
-        if (val < 200 && coinFlip == 0) return val - 100; 
-        if (val < 200) return val + (100 * rnd);  
-        if (this.totNumbers - val < 200 && coinFlip == 0) return val + 100;   
-        if (this.totNumbers - val < 200) return val + (100 * rnd); 
-        if (coinFlip == 0) return val - (100 * rnd); 
-        return val + (100 * rnd); 
-    }	
-};  
-
+}
 module.exports = Guess; 

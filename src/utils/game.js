@@ -1,6 +1,8 @@
 const Guess = require('./guess'); 
 const Removers = require('./removers');
+const Mines = require('./mines');
 const Misc = require('./misc'); 
+const TargetMove = require('./target_move'); 
 
 const Game = class { 
     constructor(dat) { 
@@ -26,11 +28,10 @@ const Game = class {
         this.delayHotCold = (dat.delayHotColdCheat) ? dat.delayHotColdCheat : 0; 
 
         // Mines
-        this.mine = (dat.totMinesCheat <= 0) ? false : true; 
-        this.totMines = (dat.totMinesCheat) ? dat.totMinesCheat : 0; 
-        this.totMinesActive = this.totMines; 
-        this.addMines = dat.addMinesCheat; 
-        this.minesArray = []; 
+        this.totMinesCheat = (dat.totMinesCheat) ? dat.totMinesCheat : 0; 
+        this.addMinesCheat = dat.addMinesCheat; 
+        if (this.addMinesCheat || this.totMinesCheat > 0) this.hasMines = true; 
+        else this.hasMines = false; 
 
         // End of Game indicators
         this.finished = false; 
@@ -49,104 +50,36 @@ const Game = class {
         // console.log('GGG ' + this.stopDupsMod); 
 
         // initializes key values 
-        if (this.mine) this.populateMines(); 
-        this.populateMoveFrequency(); 
+        this.mines = new Mines(this); 
+        Misc.populateMoveFrequency(this); 
         this.targetValue = this.randTargetValue();        // get initial target values AFTER placing mines
         this.nextTargetValue = this.targetValue;  
-        this.calculateNextMod();                          // populates this.nextMod
+        this.nextMod = TargetMove.calculateNextMod(this.minFreq, this.maxFreq);   // init the nextMod value (# moves before target changes)
         Misc.getBlurb(this); 
     } 
 
-    // initial population of the Mines array;  
-    populateMines() {
-        while (this.minesArray.length < this.totMines) {
-            let temp = Misc.getRandomNum(1, this.totNumbers);  // Math.floor(Math.random() * this.totNumbers) + 1; 
-            if (this.minesArray.indexOf(temp) < 0) this.minesArray.push(temp); 
-        }	
-        this.sortMines(); 
-    }
-
-    sortMines() {
-        this.minesArray.sort(function(a,b) {return a - b}); 
-    }
-
-    // adds number of mines = cnt;  min & max are optional to add mines to targeted range
-    addNewMines(cnt, min, max) {
-        console.log('ADD New Mines'); 
-        let minVal = (min) ? min : this.firstNumber; 
-        let maxVal = (max) ? max : this.totNumbers; 
-        let j = 0;   let tmpArray = []; 
-        while (j < cnt) {
-            let temp = Misc.getRandomNum(minVal, maxVal);   
-            // exclude existing mine #s & the current guess  
-            if (this.minesArray.indexOf(temp) < 0 && temp != this.guessValue) {
-                this.minesArray.push(temp); 
-                j++; 
-                tmpArray.push(temp); 
-            }
-        }	
-        console.log('NEW mines = ' + tmpArray.toString());
-        this.sortMines();  
-        this.totMines += cnt; 
-    }
-
-    addMinesToBlock(increase) {
-        // gets estimated value of how many mines per 100 squares of existing puzzle
-        console.log('a = ' + this.minesArray.length + '; b = ' + this.totNumbers + '; c = ' + this.firstNumber); 
-        let x = Math.floor((this.minesArray.length / (this.totNumbers - increase - this.firstNumber + 1)) * 100); 
-        console.log ('x = ' + x); 
-        let minVal = this.totNumbers - increase + 1;   // min value of range to add mines for
-        this.addNewMines(x,minVal, this.totNumbers); 
-    }
-
     randTargetValue(currVal) {
         var tmpVal = currVal; 
-        while (tmpVal == currVal || this.minesArray.indexOf(tmpVal) >= 0) {
+        while (tmpVal == currVal || this.mines.minesArray.indexOf(tmpVal) >= 0) {
             tmpVal = Misc.getRandomNum(this.firstNumber, this.totNumbers);  // Math.floor(Math.random() * this.totNumbers) + 1;  
         }		
         return tmpVal; 
     }
 
-    populateMoveFrequency() {
-		if (this.diffLevelCheat == 1) {
-            this.minFreq = 3;  this.maxFreq = 10; }
-        else if (this.diffLevelCheat == 2) {
-            this.minFreq = 2;  this.maxFreq = 7; }    
-        else if (this.diffLevelCheat == 3) {
-            this.minFreq = 2;  this.maxFreq = 5; } 
-        else if (this.diffLevelCheat == 4) {
-            this.minFreq = 1;  this.maxFreq = 4; } 
-        else if (this.diffLevelCheat == 5) {
-            this.minFreq = 1;  this.maxFreq = 3; } 
-        else if (this.diffLevelCheat == 6) {
-            this.minFreq = 1;  this.maxFreq = 2; } 
-        else if (this.diffLevelCheat == 7) {
-            this.minFreq = 1;  this.maxFreq = 1; } 
-        else {
-            this.minFreq = 3;  this.maxFreq = 10; }  
-    }
-    
-    // should return a random number between the Min Freq and Max Freq inclusive 
-    calculateNextMod() { 
-        this.nextMod = Misc.getRandomNum(this.minFreq, this.maxFreq);  // Math.floor(Math.random() * (this.maxFreq - this.minFreq + 1)) + this.minFreq;
-    } 
-
-    decrementNextMod() { 
-        this.nextMod--;
-    } 
-
     processGuess(userGuess) {
         this.infoArray = []; 
         this.guessValue = parseInt(userGuess); 
-        console.log('Game processGuess -- nextMod BEFORE = ' + this.nextMod); 
+        console.log('Game processGuess -- nextMod BEFORE = ' + this.nextMod + '; currTarg = ' + this.targetValue); 
         var tmpGuess = new Guess(this.guessValue, this);
-        this.modGameData(tmpGuess); 
+        this.gameEndCheck(tmpGuess); 
         console.log('Game processGuess -- nextMod AFTER = ' + this.nextMod + '; currTarg = ' + this.targetValue 
             + '; nextTarg = ' + this.nextTargetValue); 
 
-        if (!this.finished && this.addMines > 0  && this.turnNumber > 0 ) {
-            if ((this.addMines == 3 && this.turnNumber % 3 == 0) || this.addMines == 1)  {
-                this.addNewMines(10); 
+        if (this.nextMod == 1) this.targetMoved = true;   // set this value early so it can be used prior to TargetMove logic
+
+        if (!this.finished && this.mines.addMines > 0  && this.turnNumber > 0 ) {
+            if ((this.mines.addMines == 3 && this.turnNumber % 3 == 0) || this.mines.addMines == 1)  {
+                this.mines.addNewMines(10); 
                 this.infoArray.push('10 Mines added'); 
             }
         }
@@ -158,7 +91,7 @@ const Game = class {
                 // console.log(this.removers.displayArray);
             } else if (this.stopDupsMod > 1) {
 //                this.removers.removeSingle(userGuess); 
-                let blkText = this.removers.removeBlock(userGuess, this.totNumbers, this.targetMoved); 
+                let blkText = this.removers.removeBlock(userGuess, this.totNumbers, this.targetMoved, this.targetValue); 
                 this.infoArray.push(blkText + ' removed from grid'); 
                 console.log('remove Block -- ' + this.removers.removedNums);                
             }
@@ -182,8 +115,16 @@ const Game = class {
             } 
         }
 
-        // modifies previous Hot/Cold values to show data (once the delay has passed)
+        // Move the Target to a new location 
+        TargetMove.checkMove(this); 
+        console.log('J5-01 -- dat = ' + this.nextTargetValue + '; ' + this.moveInfo); 
+        tmpGuess.nextMod = this.nextMod;  // = tmpGuess.nextMod; 
+        tmpGuess.targetMoved = this.targetMoved;  //  = tmpGuess.targetMoved; 
+        tmpGuess.moveInfo = this.moveInfo;  // = tmpGuess.nextTargetValue; 
+        tmpGuess.nextTargetValue = this.nextTargetValue;  // = tmpGuess.nextTargetValue;   
         this.gameArray.push(tmpGuess);
+
+        // modifies previous Hot/Cold values to show data (once the delay has passed)
         if (this.delayHotCold == 1 && this.turnNumber > 1) this.modShowHotCold(1); 
         if (this.delayHotCold == 2 && this.turnNumber > 2) this.modShowHotCold(2); 
         if (this.delayHotCold == 3 && this.turnNumber > 3) this.modShowHotCold(3); 
@@ -194,24 +135,12 @@ const Game = class {
             if (this.turnNumber > 2 && this.delayHotCold >= 3) this.modShowHotCold(2);
         }
         console.log('J1 ' + this.totValids); 
-        this.totMinesActive = this.countActiveMines();  
+        this.totMinesActive = this.mines.countActiveMines();  
         this.totValids = this.countActiveNums(); 
         console.log('J2 ' + this.totValids); 
         this.turnNumber++; 
     }
 
-    countActiveMines() {
-        // console.log('K = ' + this.firstNumber + '; ' + this.totNumbers + '; ' + this.minesArray.length); 
-        const reducer = (accumulator, currentValue) => {
-        //    console.log('K2 = ' + accumulator + '; ' + currentValue); 
-           if (currentValue >= this.firstNumber && currentValue <= this.totNumbers
-                && this.removers.removedNums.indexOf(currentValue) < 0) {
-                    accumulator += 1;
-            } 
-            return accumulator; 
-       }
-       return this.minesArray.reduce(reducer, 0);   // 0 is initial value
-    }
 
     countActiveNums() {
         let num = 0; 
@@ -224,8 +153,16 @@ const Game = class {
 
     decreasePuzzleSize() {
         let decrement = Math.abs(this.sizePuzzleMods); 
+        // If target Moved, make sure we don't eliminate blocks that would include the new number 
+        if (this.targetMoved && this.targetValue > (this.totNumbers - decrement )) {
+            console.log('increase minimum number');
+            this.firstNumber += decrement;         
+        }
+        else if (this.targetMoved && this.targetValue < (this.firstNumber + decrement)) {
+            this.totNumbers -= decrement; 
+        }
         // if current guess is in the last block (the one to potentially be removed), remove first block instead
-        if (this.guessValue > (this.totNumbers - decrement )) {
+        else if (this.guessValue > (this.totNumbers - decrement )) {
             console.log('increase minimum number');
             this.firstNumber += decrement; 
         }   
@@ -244,18 +181,14 @@ const Game = class {
         let increment = Math.abs(this.sizePuzzleMods); 
         this.totNumbers += increment; 
         console.log('add mines to increment' + increment + ' to block ending with ' + this.totNumbers); 
-        this.addMinesToBlock(increment);  
+        this.mines.addMinesToBlock(increment);  
     }
 
     modShowHotCold(cnt) {
         this.gameArray[this.gameArray.length - cnt - 1].showHotCold = true; 
     }
 
-    modGameData(tmpGuess) {
-        this.nextMod = tmpGuess.nextMod; 
-        this.targetMoved = tmpGuess.targetMoved; 
-        this.targetValue = tmpGuess.nextTargetValue; 
-        this.nextTargetValue = tmpGuess.nextTargetValue;   
+    gameEndCheck(tmpGuess) {
         this.explode = tmpGuess.explode;    
         	
         if (tmpGuess.result == 'match!!!')  {

@@ -156,6 +156,7 @@ function getCheatVals(data) {
     data.sizePuzzleModsCheat = 0; 
     data.stopDupsModCheat =  0;
 
+    /* note:  change data here & in public/js/index.js */
     switch(data.challengeLevel) {
         case 1: 
             data.diffLevelCheat = '02'; 
@@ -200,7 +201,7 @@ function getCheatVals(data) {
             data.challenge = 'Difficult 2';
             break; 
         case 8: 
-            data.diffLevelCheat = '06'; 
+            data.diffLevelCheat = '05'; 
             data.totMinesCheat = 60; 
             data.addMinesCheat = 3; 
             data.hotColdOutageCheat = true; 
@@ -210,26 +211,37 @@ function getCheatVals(data) {
             break; 
         case 9: 
             data.diffLevelCheat = '07'; 
-            data.totMinesCheat = 30; 
+            data.totMinesCheat = 60; 
             data.addMinesCheat = 1; 
-            data.hotColdOutageCheat = false; 
+            data.hotColdOutageCheat = true; 
             data.complexMovesCheat = true; 
             data.delayHotColdCheat = 2; 
-            data.stopDupsModCheat =  1;
+            data.stopDupsModCheat =  0;
             data.challenge = 'Advanced 1';
             break; 
         case 10: 
             data.diffLevelCheat = '07'; 
-            data.totMinesCheat = 120; 
+            data.totMinesCheat = 90; 
             data.addMinesCheat = 3; 
             data.hotColdOutageCheat = true; 
-            data.complexMovesCheat = true; 
+            data.complexMovesCheat = false; 
             data.delayHotColdCheat = 1; 
             data.sizePuzzleModsCheat = -50; 
             data.stopDupsModCheat =  10;
             data.challenge = 'Advanced 2';
             break; 
         case 11: 
+            data.diffLevelCheat = '06'; 
+            data.totMinesCheat = 120; 
+            data.addMinesCheat = 3; 
+            data.hotColdOutageCheat = true; 
+            data.complexMovesCheat = true; 
+            data.delayHotColdCheat = 2; 
+            data.sizePuzzleModsCheat = -100; 
+            data.stopDupsModCheat =  10;
+            data.challenge = 'Advanced 3';
+            break;       
+        case 12: 
             data.diffLevelCheat = '07'; 
             data.totMinesCheat = 150; 
             data.addMinesCheat = 1; 
@@ -238,18 +250,7 @@ function getCheatVals(data) {
             data.delayHotColdCheat = 2; 
             data.sizePuzzleModsCheat = 100; 
             data.stopDupsModCheat =  1;
-            data.challenge = 'Extreme 1';
-            break; 
-        case 12: 
-            data.diffLevelCheat = '07'; 
-            data.totMinesCheat = 120; 
-            data.addMinesCheat = 1; 
-            data.hotColdOutageCheat = true; 
-            data.complexMovesCheat = true; 
-            data.delayHotColdCheat = 3; 
-            data.sizePuzzleModsCheat = -100; 
-            data.stopDupsModCheat =  10;
-            data.challenge = 'Extreme 2';
-            break;         
+            data.challenge = 'Most Difficult';
+            break;       
     }
 }
