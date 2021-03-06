@@ -91,9 +91,11 @@ const Game = class {
                 // console.log(this.removers.displayArray);
             } else if (this.stopDupsMod > 1) {
 //                this.removers.removeSingle(userGuess); 
-                let blkText = this.removers.removeBlock(userGuess, this.totNumbers, this.targetMoved, this.targetValue); 
-                this.infoArray.push(blkText + ' removed from grid'); 
-                console.log('remove Block -- ' + this.removers.removedNums);                
+                let blkText = this.removers.removeBlock(userGuess, this.totNumbers, this.targetMoved, this.targetValue, this.countActiveNums()); 
+                if (blkText) {
+                    this.infoArray.push(blkText + ' removed from grid'); 
+                    console.log('remove Block -- ' + this.removers.removedNums);    
+                }            
             }
             this.removedNumsText = this.removers.getDisplayArrayString(); 
         }
@@ -153,6 +155,8 @@ const Game = class {
 
     decreasePuzzleSize() {
         let decrement = Math.abs(this.sizePuzzleMods); 
+        // do not decrease to the point that no numbers are selectable;  
+        if (this.totNumbers - this.firstNumber <= 200 && decrement >= 100 && this.countActiveNums <= 120) return; 
         // If target Moved, make sure we don't eliminate blocks that would include the new number 
         if (this.targetMoved && this.targetValue > (this.totNumbers - decrement )) {
             console.log('increase minimum number');

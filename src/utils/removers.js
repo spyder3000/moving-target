@@ -19,9 +19,10 @@ const Removers = class {
         }	
     }
     
-    removeBlock(num, totNums, targetMoved, targetValue) {
+    removeBlock(num, totNums, targetMoved, targetValue, selectNums) {
         // targetMoved means that the target will be moving this turn, so we can remove the current block
         let blk = ''; 
+        if (selectNums <= 20) return;   // safeguard to prevent removing numbers that won't allow game to continue
         // remove current block if the Target will be moving this turn
         if (targetMoved) { // && this.getNumBlock(num) != this.getNumBlock(targetValue) ) {
             console.log('CC - num found = ' + num + '; targetMoved = ' + targetMoved); 
