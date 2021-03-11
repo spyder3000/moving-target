@@ -13,7 +13,7 @@ const Guess = class {
 //d        this.sizePuzzleMods = gameDat.sizePuzzleMods; 
         this.showHotCold = (gameDat.delayHotCold <= 0) ? true : false; 
 
-        this.minesArray = gameDat.minesArray; 
+        this.minesArray = gameDat.mines.minesArray; 
 //d        this.totNumbers = gameDat.totNumbers;
 //d        this.firstNumber = gameDat.firstNumber; 
 //d        this.maxFreq = gameDat.maxFreq; 
@@ -81,6 +81,7 @@ const Guess = class {
 
     // checks if guess = any of the mines in array
     checkMines()  {
+        console.log('MINES -- guess = ' + this.guessValue + ' XXX = ' + this.minesArray.toString())
         return (this.minesArray.indexOf(this.guessValue) >= 0) ? true : false;   
     }	
 }

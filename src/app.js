@@ -211,17 +211,17 @@ function getCheatVals(data) {
             break; 
         case 9: 
             data.diffLevelCheat = '07'; 
-            data.totMinesCheat = 60; 
+            data.totMinesCheat = 30; 
             data.addMinesCheat = 1; 
-            data.hotColdOutageCheat = true; 
-            data.complexMovesCheat = true; 
+            data.hotColdOutageCheat = false; 
+            data.complexMovesCheat = false; 
             data.delayHotColdCheat = 2; 
             data.stopDupsModCheat =  0;
             data.challenge = 'Advanced 1';
             break; 
         case 10: 
             data.diffLevelCheat = '07'; 
-            data.totMinesCheat = 90; 
+            data.totMinesCheat = 60; 
             data.addMinesCheat = 3; 
             data.hotColdOutageCheat = true; 
             data.complexMovesCheat = false; 
@@ -232,7 +232,7 @@ function getCheatVals(data) {
             break; 
         case 11: 
             data.diffLevelCheat = '06'; 
-            data.totMinesCheat = 120; 
+            data.totMinesCheat = 90; 
             data.addMinesCheat = 3; 
             data.hotColdOutageCheat = true; 
             data.complexMovesCheat = true; 
@@ -243,7 +243,7 @@ function getCheatVals(data) {
             break;       
         case 12: 
             data.diffLevelCheat = '07'; 
-            data.totMinesCheat = 150; 
+            data.totMinesCheat = 120; 
             data.addMinesCheat = 1; 
             data.hotColdOutageCheat = true; 
             data.complexMovesCheat = true; 
