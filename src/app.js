@@ -156,7 +156,18 @@ function getCheatVals(data) {
     data.sizePuzzleModsCheat = 0; 
     data.stopDupsModCheat =  0;
 
+    /* diffLevelCheat translate:   (copied from index.hbs)
+        "01" -- Target moves every 3 to 10 turns
+        "02" -- Target moves every 2 to 7 turns
+        "03" -- Target moves every 2 to 5 turns 
+        "04" -- Target moves every 1 to 4 turns 
+        "05" -- Target moves every 1 to 3 turns
+        "06" -- Target moves every 1 to 2 turns
+        "07" -- Target moves every turn
+    */
+
     /* note:  change data here & in public/js/index.js */
+
     switch(data.challengeLevel) {
         case 1: 
             data.diffLevelCheat = '02'; 
@@ -186,7 +197,7 @@ function getCheatVals(data) {
             data.challenge = 'Medium 2';
             break; 
         case 6: 
-            data.diffLevelCheat = '06'; 
+            data.diffLevelCheat = '04'; 
             data.totMinesCheat = 30; 
             data.addMinesCheat = 3; 
             data.hotColdOutageCheat = true; 
@@ -196,7 +207,7 @@ function getCheatVals(data) {
         case 7: 
             data.diffLevelCheat = '06'; 
             data.totMinesCheat = 90; 
-            data.complexMovesCheat = true; 
+            data.complexMovesCheat = false; 
             data.delayHotColdCheat = 1; 
             data.challenge = 'Difficult 2';
             break; 
@@ -205,7 +216,6 @@ function getCheatVals(data) {
             data.totMinesCheat = 60; 
             data.addMinesCheat = 3; 
             data.hotColdOutageCheat = true; 
-            data.complexMovesCheat = true; 
             data.sizePuzzleModsCheat = 100;
             data.challenge = 'Difficult 3';
             break; 
@@ -220,13 +230,12 @@ function getCheatVals(data) {
             data.challenge = 'Advanced 1';
             break; 
         case 10: 
-            data.diffLevelCheat = '07'; 
+            data.diffLevelCheat = '06'; 
             data.totMinesCheat = 60; 
             data.addMinesCheat = 3; 
             data.hotColdOutageCheat = true; 
             data.complexMovesCheat = false; 
             data.delayHotColdCheat = 1; 
-            data.sizePuzzleModsCheat = -50; 
             data.stopDupsModCheat =  10;
             data.challenge = 'Advanced 2';
             break; 
@@ -236,7 +245,7 @@ function getCheatVals(data) {
             data.addMinesCheat = 3; 
             data.hotColdOutageCheat = true; 
             data.complexMovesCheat = true; 
-            data.delayHotColdCheat = 2; 
+            data.delayHotColdCheat = 1; 
             data.sizePuzzleModsCheat = -100; 
             data.stopDupsModCheat =  10;
             data.challenge = 'Advanced 3';
@@ -248,7 +257,6 @@ function getCheatVals(data) {
             data.hotColdOutageCheat = true; 
             data.complexMovesCheat = true; 
             data.delayHotColdCheat = 2; 
-            data.sizePuzzleModsCheat = 100; 
             data.stopDupsModCheat =  1;
             data.challenge = 'Most Difficult';
             break;       
